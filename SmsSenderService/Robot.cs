@@ -70,7 +70,8 @@ namespace SmsSenderService
             {
                 RequestList.Push(request);
             }
-            RequestListEvent?.Invoke(this, new EventArgs(1, "Push"));
+            Task m = Task.Run(() => { RequestListEvent?.Invoke(this, new EventArgs(1, "Push")); });
+            
         }
         public SmsRequest PopRequest()
         {

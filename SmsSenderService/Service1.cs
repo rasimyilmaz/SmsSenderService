@@ -36,25 +36,23 @@ namespace SmsSenderService
             if (e.Code == 1)
             {
                 SmsRequest request = RobotInstance.PopRequest();
-                SmsCallback callback= RobotInstance.Send(request);
-                Task task = SendCallback(callback);
+                //SmsCallback callback= RobotInstance.Send(request);
+                //SendCallback(callback);
             }
         }
-        public async Task SendCallback(SmsCallback callback)
+        public async Task<HttpResponseMessage> SendCallback(SmsCallback callback)
         {
-            httpClient.BaseAddress = new Uri(callback.callbackurl);
-            httpClient.DefaultRequestHeaders.Accept.Clear();
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            try
+            Uri address = new Uri("https://www.odeonparkotel.com/test2.php");
+            var formContent = new FormUrlEncodedContent(new[]
             {
-                HttpResponseMessage response = await httpClient.PostAsJsonAsync("/", callback);
-            }
-            catch (Exception Ex)
-            {
-
-            }
+                new KeyValuePair<string, string>("id", callback.id),
+                new KeyValuePair<string, string>("code", callback.code.ToString()),
+                new KeyValuePair<string, string>("message", callback.message),
+                new KeyValuePair<string, string>("timestamp", callback.timestamp)
+            });
+            var response = await httpClient.PostAsync(address, formContent);
+            return response;
         }
-
         protected override void OnStop()
         {
             httpListener.Dispose();
