@@ -39,7 +39,9 @@ namespace SmsSenderService
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.ServiceName = "Service1";
+            this.serviceInstaller1.Description = "Sms sender send sms through mobile modem\'s website";
+            this.serviceInstaller1.DisplayName = "Rasim Yılmaz - Sms Sender";
+            this.serviceInstaller1.ServiceName = "SmsSenderService";
             // 
             // ProjectInstaller
             // 
