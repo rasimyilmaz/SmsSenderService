@@ -29,20 +29,20 @@ namespace SmsSenderService
             RobotInstance = Robot.Instance;
             RobotInstance.RequestListEvent += StackChanged;
             httpClient = new HttpClient();
-            httpListener = WebApp.Start<Startup>("http://localhost:12345");
+            httpListener = WebApp.Start<Startup>("http://192.168.5.103:12345");
         }
         public void StackChanged(object sender, Robot.EventArgs e)
         {
             if (e.Code == 1)
             {
                 SmsRequest request = RobotInstance.PopRequest();
-                //SmsCallback callback= RobotInstance.Send(request);
-                //SendCallback(callback);
+                SmsCallback callback= RobotInstance.Send(request);
+                SendCallback(callback).Wait();
             }
         }
         public async Task<HttpResponseMessage> SendCallback(SmsCallback callback)
         {
-            Uri address = new Uri("https://www.odeonparkotel.com/test2.php");
+            Uri address = new Uri(callback.callbackurl);
             var formContent = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("id", callback.id),
@@ -56,6 +56,7 @@ namespace SmsSenderService
         protected override void OnStop()
         {
             httpListener.Dispose();
+            RobotInstance.RequestListEvent -= StackChanged;
             RobotInstance.Clear();
         }
     }

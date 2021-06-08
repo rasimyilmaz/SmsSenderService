@@ -14,7 +14,7 @@ namespace SmsSenderService
         public SmsResponse Post([FromBody] SmsRequest request)
         {
             RobotInstance.PushRequest(request);
-            return new SmsResponse { code = 100, id = request.id, message="İşlem sıraya alındı." };
+            return new SmsResponse { code = 100, id = request.id, message="İşlem sıraya alındı." ,timestamp=DateTime.Now.ToString()};
         }
     }
 }

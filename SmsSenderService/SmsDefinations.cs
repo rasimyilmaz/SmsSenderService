@@ -18,6 +18,8 @@ namespace SmsSenderService
         public string id { get; set; }
         public int code { get; set; }
         public string message { get; set; }
+        public string timestamp { get; set; }
+
     }
     public class SmsCallback
     {

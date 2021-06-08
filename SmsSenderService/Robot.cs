@@ -134,6 +134,7 @@ namespace SmsSenderService
                     callback.message = Ex.Message;
                 }
             }
+            callback.timestamp = DateTime.Now.ToString();
             return callback;
         }
         public IWebElement WaitUntilElementClickable(By elementLocator, int timeout = 10)
